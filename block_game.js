@@ -9,15 +9,18 @@
 /*******************************************************/
 function setup() {
 console.log("running game");
-cnv = new Canvas(1600, 800);
-world.gravity.y = 10;
+
+cnv = new Canvas(800, windowHeight);
+world.gravity.y = 0;
 
 ball = new Sprite(600, 100, 60,);
 ball.color = '#698fe7';
 ball.bounciness = 0.7;
+ball.vel.y = 1;
+ball.friction = 0;
+ball.drag = 0;
 
-
-platform = new Sprite(400, 750, 150, 10, 'k');
+platform = new Sprite(400, 350, 150, 10, 'k');
 platform.color = '#698fe7';
 
 
