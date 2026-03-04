@@ -13,37 +13,74 @@ console.log("running game");
 cnv = new Canvas(800, windowHeight - 50);
 world.gravity.y = 0;
 
+//defining variables
+randNum = random(0, 800);
+let score = 0;
+
+/*******************************************************/
+// walls code
+/*******************************************************/
+
+walls() 
+
 /*******************************************************/
 // ball code
 /*******************************************************/
-ball = new Sprite(400, 650, 60,'d');
+randNum = random(0, 800);
+ball = new Sprite(randNum, windowHeight/2, 30,'d');
 ball.color = '#c587dd';
-ball.bounciness = 0.7;
-ball.vel.y = 1;
+ball.bounciness = 1;
+ball.vel.y = 3;
 ball.friction = 0;
 ball.drag = 0;
 
 /*******************************************************/
 // platform code
 /*******************************************************/
-platform = new Sprite(400, 400, 150, 10, 'k');
+platform = new Sprite(400, 750, 130, 10, 'k');
 platform.color = '#698fe7';
 
 /*******************************************************/
 // blocks code (better name than blocks needed)
 /*******************************************************/
 
+blockGroup = new Group();
 for (var row = 0; row < 4; row++) {
- for (var i = 0; i < 10; i++) {
-    var sprinkleBlock = new Sprite(i*80 + 40, row*45, 75, 30, 'k');
+ for (var i = 0; i < 8; i++) {
+    var sprinkleBlock = new Sprite(i*100 + 50, row*45 + 50, 75, 30, 'k');
     sprinkleBlock.color = color(255, 182, 193);
+    blockGroup.add(sprinkleBlock);
+
  }
 }
 
+/*******************************************************/
+// deleting blocks 
+/*******************************************************/
+blockGroup.collides(ball, func2Call);
 
+function func2Call(sprinkleBlock, ball) {
+sprinkleBlock.remove();
+score = score + 1;
+console.log(score);
+} 
+}
 
+/*******************************************************/
+// wall function
+/*******************************************************/
+function walls () {
+wallLeft  = new Sprite(4, height/2, 8, height, 'k');
+wallLeft.color = '#8bf7bb';
 
+wallRight  = new Sprite(796, height/2, 8, height, 'k');
+wallRight.color = '#8bf7bb';
 
+wallTop = new Sprite(width/2, 4, width, 8, 'k');
+wallTop.color = '#8bf7bb';
+
+wallBottom = new Sprite(width/2, windowHeight - 55, width, 8, 'k');
+wallBottom.color = '#8bf7bb';
 }
 /*******************************************************/
 // draw()
