@@ -6,7 +6,7 @@ body {
   align-items: center;
   height: 100vh;
   margin: 0;
-  background-color: #a8c5e6;
+  background-color: #e6e6a8;
 }
 
 .headerstyle {
@@ -19,4 +19,13 @@ body {
 .rulestyle {
  font-family:Georgia, Times, 'Times New Roman', serif;
  color: rgb(106, 3, 175);
+}
+
+button {
+ font-family: "Atma", sans-serif;
+ font-size: 20px;
+ text-align: center;
+ background-color: #a181ec;
+ padding: 5px;
+
 }
