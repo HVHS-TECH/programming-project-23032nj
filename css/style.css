@@ -1,0 +1,22 @@
+/* copy and pasted to center canvas, will modify later on */
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #a8c5e6;
+}
+
+.headerstyle {
+ font-family: "Atma", sans-serif;
+ text-align: center;
+ font-size: 50px;
+}
+
+
+.rulestyle {
+ font-family:Georgia, Times, 'Times New Roman', serif;
+ color: rgb(106, 3, 175);
+}

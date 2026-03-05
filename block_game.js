@@ -37,7 +37,7 @@ ball.drag = 0;
 /*******************************************************/
 // platform code
 /*******************************************************/
-platform = new Sprite(400, 750, 130, 10, 'k');
+platform = new Sprite(400, windowHeight - 100, 130, 10, 'k');
 platform.color = '#698fe7';
 
 /*******************************************************/
@@ -53,6 +53,8 @@ for (var row = 0; row < 4; row++) {
 
  }
 }
+
+
 
 /*******************************************************/
 // deleting blocks 
@@ -94,7 +96,7 @@ platform.vel.x = '-10'
 }
 else if (kb.pressing ('right')) {
 platform.vel.x = '10'
-};
+}
 
 if (kb.released('left')) {
 platform.vel.x = '0'
@@ -113,10 +115,14 @@ if (platform.x < 75) {
 platform.x = 76
 }
 
+//Game ends when the ball hits the bottom
+ball.collides (wallBottom, functionBallDelete) 
 
+function functionBallDelete (wallBottom, Ball) {
+ball.remove();
 }
 
-
+}
 /***********************************************/
 // Called by Nia OR End of block_game
 /***********************************************/
