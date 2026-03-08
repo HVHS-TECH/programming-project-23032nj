@@ -6,7 +6,15 @@ body {
   align-items: center;
   height: 100vh;
   margin: 0;
-  background-color: #e6e6a8;
+  background-color: #facdd1;
+}
+
+.container {
+ width: 800px;
+ height: 800px;
+ background-color: rgb(216, 245, 232);
+ padding: 3px;
+ justify-content: space-between;
 }
 
 .headerstyle {
@@ -15,9 +23,16 @@ body {
  font-size: 50px;
 }
 
+.secondheaderstyle {
+ font-family: "Atma", sans-serif;
+ text-align: center;
+ font-size: 30px;
+}
 
 .rulestyle {
  font-family:Georgia, Times, 'Times New Roman', serif;
+ font-size: 20px;
+ text-align: center;
  color: rgb(106, 3, 175);
 }
 
@@ -27,5 +42,5 @@ button {
  text-align: center;
  background-color: #a181ec;
  padding: 5px;
-
 }
+

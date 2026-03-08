@@ -3,14 +3,29 @@
 // Written by Nia term 1 2026
 // Block Breaker Game
 /***********************************************/
-	
+
+//defining constants
+const GAMEWIDTH = 700;
+const GAMEHEIGHT = 800;
+
+const BALLDIAMETER = 30;
+
+const PLATFORMXPOSITION = 400;
+const PLATFORMWIDTH = 130;
+const PLATFORMHEIGHT = 10;
+
+const BLOCKWIDTH = 75;
+const BLOCKHEIGHT = 30;
+
+const WALLDEPTH = 8;
+
 /*******************************************************/
 // setup()
 /*******************************************************/
 function setup() {
 console.log("running game");
 
-cnv = new Canvas(800, windowHeight - 50);
+cnv = new Canvas(GAMEWIDTH, GAMEHEIGHT);
 world.gravity.y = 0;
 
 //defining variables
@@ -27,7 +42,7 @@ walls()
 // ball code
 /*******************************************************/
 randNum = random(0, 800);
-ball = new Sprite(randNum, windowHeight/2, 30,'d');
+ball = new Sprite(randNum, windowHeight/2, BALLDIAMETER,'d');
 ball.color = '#c587dd';
 ball.bounciness = 1;
 ball.vel.y = 3;
@@ -37,7 +52,7 @@ ball.drag = 0;
 /*******************************************************/
 // platform code
 /*******************************************************/
-platform = new Sprite(400, windowHeight - 100, 130, 10, 'k');
+platform = new Sprite(PLATFORMXPOSITION, GAMEHEIGHT - 100, PLATFORMWIDTH, PLATFORMHEIGHT, 'k');
 platform.color = '#698fe7';
 
 /*******************************************************/
@@ -46,10 +61,10 @@ platform.color = '#698fe7';
 
 blockGroup = new Group();
 for (var row = 0; row < 4; row++) {
- for (var i = 0; i < 8; i++) {
-    var sprinkleBlock = new Sprite(i*100 + 50, row*45 + 50, 75, 30, 'k');
-    sprinkleBlock.color = color(255, 182, 193);
-    blockGroup.add(sprinkleBlock);
+ for (var i = 0; i < 7; i++) {
+    var block = new Sprite(i*100 + 50, row*45 + 50, BLOCKWIDTH, BLOCKHEIGHT, 'k');
+    block.color = '#ffb6c1';
+    blockGroup.add(block);
 
  }
 }
@@ -61,8 +76,8 @@ for (var row = 0; row < 4; row++) {
 /*******************************************************/
 blockGroup.collides(ball, func2Call);
 
-function func2Call(sprinkleBlock, ball) {
-sprinkleBlock.remove();
+function func2Call(block, ball) {
+block.remove();
 score = score + 1;
 console.log(score);
 } 
@@ -72,17 +87,17 @@ console.log(score);
 // wall function
 /*******************************************************/
 function walls () {
-wallLeft  = new Sprite(4, height/2, 8, height, 'k');
-wallLeft.color = '#8bf7bb';
+wallLeft  = new Sprite(WALLDEPTH/2, height/2, WALLDEPTH, height, 'k');
+wallLeft.color = '#eb7184';
 
-wallRight  = new Sprite(796, height/2, 8, height, 'k');
-wallRight.color = '#8bf7bb';
+wallRight  = new Sprite(GAMEWIDTH - WALLDEPTH/2, height/2, WALLDEPTH, height, 'k');
+wallRight.color = '#eb7184';
 
-wallTop = new Sprite(width/2, 4, width, 8, 'k');
-wallTop.color = '#8bf7bb';
+wallTop = new Sprite(width/2, WALLDEPTH/2, width, WALLDEPTH, 'k');
+wallTop.color = '#eb7184';
 
-wallBottom = new Sprite(width/2, windowHeight - 55, width, 8, 'k');
-wallBottom.color = '#8bf7bb';
+wallBottom = new Sprite(width/2, GAMEHEIGHT - WALLDEPTH/2, width, WALLDEPTH, 'k');
+wallBottom.color = '#eb7184';
 }
 /*******************************************************/
 // draw()
