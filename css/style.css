@@ -10,9 +10,9 @@ body {
 }
 
 .container {
- width: 800px;
+ width: 700px;
  height: 800px;
- background-color: rgb(216, 245, 232);
+ background-color: rgb(156, 190, 241);
  padding: 3px;
  justify-content: space-between;
 }
@@ -33,7 +33,7 @@ body {
  font-family:Georgia, Times, 'Times New Roman', serif;
  font-size: 20px;
  text-align: center;
- color: rgb(106, 3, 175);
+ color: black;
 }
 
 button {
