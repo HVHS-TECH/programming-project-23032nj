@@ -19,6 +19,10 @@ const BLOCKHEIGHT = 30;
 
 const WALLDEPTH = 8;
 
+//defining variables
+let score = 0;
+let blockRandomColor = "pink";
+
 /*******************************************************/
 // setup()
 /*******************************************************/
@@ -30,7 +34,6 @@ world.gravity.y = 0;
 
 
 //defining variables
-let score = 0;
 randNum = random(0, 800);
 
 //running walls function
@@ -94,11 +97,13 @@ function blockCreate () {
  for (var row = 0; row < 4; row++) {
   for (var i = 0; i < 7; i++) {
     var block = new Sprite(i*100 + 50, row*45 + 75, BLOCKWIDTH, BLOCKHEIGHT, 'k');
-    block.color = '#f1adb8';
+    block.color = blockRandomColor;
     blockGroup.add(block);
    }
+ blockRandomColor = color(random(255), random(255), random(255))
  }
 }
+
 
 /*******************************************************/
 // draw()
@@ -107,30 +112,30 @@ function draw() {
 background ('#9cbef1');
 
 //score display
-text("Score", GAMEWIDTH - 50 , 40 );
+text(score, GAMEWIDTH - 50 , 40 );
 
 //moving the platform
 if (kb.pressing('left')) {
-platform.vel.x = '-10'
+platform.vel.x = '-10';
 }
 else if (kb.pressing ('right')) {
-platform.vel.x = '10'
+platform.vel.x = '10';
 }
 
 if (kb.released('left')) {
-platform.vel.x = '0'
+platform.vel.x = '0';
 }
 
 if (kb.released('right')) {
-platform.vel.x = '0'
+platform.vel.x = '0';
 }
 
-if (platform.x > 725) {
-platform.x = 724
+if (platform.x >= GAMEWIDTH - PLATFORMWIDTH/2 - 5) {
+platform.x = GAMEWIDTH - PLATFORMWIDTH/2 - WALLDEPTH;
 }
 
-if (platform.x < 75) {
-platform.x = 76
+if (platform.x < WALLDEPTH + PLATFORMWIDTH/2) {
+platform.x = WALLDEPTH + PLATFORMWIDTH/2;
 }
 
 //Game ends when the ball hits the bottom
