@@ -31,16 +31,14 @@ world.gravity.y = 0;
 
 //defining variables
 let score = 0;
+randNum = random(0, 800);
 
-/*******************************************************/
-// running walls function
-/*******************************************************/
+//running walls function
 walls() 
 
 /*******************************************************/
 // ball code
 /*******************************************************/
-randNum = random(0, 800);
 ball = new Sprite(randNum, windowHeight/2, BALLDIAMETER,'d');
 ball.color = '#c587dd';
 ball.bounciness = 1;
@@ -72,8 +70,10 @@ console.log(score);
 }
 
 /*******************************************************/
-// creating walls function
+// functions code
 /*******************************************************/
+
+// creating walls function
 function walls () {
 wallLeft  = new Sprite(WALLDEPTH/2, height/2, WALLDEPTH, height, 'k');
 wallLeft.color = '#eb7184';
@@ -88,15 +88,13 @@ wallBottom = new Sprite(width/2, GAMEHEIGHT - WALLDEPTH/2, width, WALLDEPTH, 'k'
 wallBottom.color = '#eb7184';
 }
 
-/*******************************************************/
 // creating blocks function
-/*******************************************************/
 function blockCreate () {
  blockGroup = new Group();
  for (var row = 0; row < 4; row++) {
   for (var i = 0; i < 7; i++) {
-    var block = new Sprite(i*100 + 50, row*45 + 50, BLOCKWIDTH, BLOCKHEIGHT, 'k');
-    blockColor = color(random(255), random(255), random(255));
+    var block = new Sprite(i*100 + 50, row*45 + 75, BLOCKWIDTH, BLOCKHEIGHT, 'k');
+    block.color = '#f1adb8';
     blockGroup.add(block);
    }
  }
@@ -109,7 +107,7 @@ function draw() {
 background ('#9cbef1');
 
 //score display
-text("Score", 400 ,400 );
+text("Score", GAMEWIDTH - 50 , 40 );
 
 //moving the platform
 if (kb.pressing('left')) {
@@ -140,8 +138,7 @@ ball.collides (wallBottom, functionGameEnd)
 
 function functionGameEnd (wallBottom, Ball) {
 ball.remove();
-console.log("Game over. You got" + score + "points.");
-
+console.log("Game over. You got points.");
 }
 
 //When all the blocks have been deleted
@@ -151,6 +148,7 @@ blockCreate ()
 
 //End of draw loop
 }
+
 /***********************************************/
 // Called by Nia OR End of block_game
 /***********************************************/
