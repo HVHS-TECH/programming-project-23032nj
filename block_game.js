@@ -22,7 +22,12 @@ const WALLDEPTH = 8;
 //defining variables
 let score = 0;
 let blockRandomColor = "pink";
+let colorArray = ['pink', 'green', 'blue', 'purple'];
 
+//Preload function
+function preload() {
+imgBall = loadImage('../assets/images/ballimg.png');
+}	
 /*******************************************************/
 // setup()
 /*******************************************************/
@@ -33,8 +38,8 @@ cnv = new Canvas(GAMEWIDTH, GAMEHEIGHT);
 world.gravity.y = 0;
 
 
-//defining variables
-randNum = random(0, 800);
+//defining variables within setup
+randNum = random(10, GAMEWIDTH - 10);
 
 //running walls function
 walls() 
@@ -42,12 +47,10 @@ walls()
 /*******************************************************/
 // ball code
 /*******************************************************/
-ball = new Sprite(randNum, windowHeight/2, BALLDIAMETER,'d');
+ball = new Sprite(GAMEWIDTH/2, GAMEHEIGHT/2, BALLDIAMETER,'d');
 ball.color = '#c587dd';
-ball.bounciness = 1;
-ball.vel.y = 3;
-ball.friction = 0;
-ball.drag = 0;
+ball.image = (imgBall);
+imgBall.resize(BALLDIAMETER, BALLDIAMETER);
 
 /*******************************************************/
 // platform code
@@ -112,6 +115,8 @@ function draw() {
 background ('#9cbef1');
 
 //score display
+textSize(30);
+fill('#eb7184');
 text(score, GAMEWIDTH - 50 , 40 );
 
 //moving the platform
@@ -138,12 +143,19 @@ if (platform.x < WALLDEPTH + PLATFORMWIDTH/2) {
 platform.x = WALLDEPTH + PLATFORMWIDTH/2;
 }
 
+if (kb.presses('space')) {
+ball.bounciness = 1;
+ball.vel.y = 3;
+ball.friction = 0;
+ball.drag = 0;
+}
+
 //Game ends when the ball hits the bottom
 ball.collides (wallBottom, functionGameEnd) 
 
 function functionGameEnd (wallBottom, Ball) {
 ball.remove();
-console.log("Game over. You got points.");
+console.log("Game over. You got " + score + " points.");
 }
 
 //When all the blocks have been deleted
