@@ -12,13 +12,9 @@ body {
 .container {
  width: 700px;
  height: 800px;
- background-color: rgb(156, 190, 241);
+ background-color: #bfd7fa;
  padding: 3px;
  justify-content: space-between;
-}
-
-.content {
-
 }
 
 .headerstyle {
@@ -48,3 +44,15 @@ button {
  padding: 5px;
 }
 
+.containerEnd {
+ width: 700px;
+ height: 800px;
+ background-color: rgb(156, 190, 241);
+ padding: 3px;
+ justify-content: space-between;  
+ display: none;
+}
+
+#complete {
+display: none;
+}

@@ -21,8 +21,8 @@ const WALLDEPTH = 8;
 
 //defining variables
 let score = 0;
-let blockRandomColor = "pink";
-let colorArray = ['pink', 'green', 'blue', 'purple'];
+let blockRowColor = "#f3c1e0";
+let colorArray = ['#febdb1', '#d6fda9', '#a8deff'];
 
 //Preload function
 function preload() {
@@ -100,10 +100,11 @@ function blockCreate () {
  for (var row = 0; row < 4; row++) {
   for (var i = 0; i < 7; i++) {
     var block = new Sprite(i*100 + 50, row*45 + 75, BLOCKWIDTH, BLOCKHEIGHT, 'k');
-    block.color = blockRandomColor;
+    block.color = blockRowColor;
     blockGroup.add(block);
    }
- blockRandomColor = color(random(255), random(255), random(255))
+   blockRowColor = colorArray[row];
+ //blockRandomColor = color(random(255), random(255), random(255))
  }
 }
 
@@ -112,7 +113,8 @@ function blockCreate () {
 // draw()
 /*******************************************************/
 function draw() {		
-background ('#9cbef1');
+
+background ('#bfd7fa');
 
 //score display
 textSize(30);
@@ -156,6 +158,8 @@ ball.collides (wallBottom, functionGameEnd)
 function functionGameEnd (wallBottom, Ball) {
 ball.remove();
 console.log("Game over. You got " + score + " points.");
+containerEnd.style.display = "block";
+
 }
 
 //When all the blocks have been deleted
@@ -163,9 +167,14 @@ if (blockGroup.length = 0) {
 blockCreate () 
 }
 
+//Endscreen code
+p_heading.textContent = "You lost!";
+p_score.textContent = "You got " + score + " points. Congratulations";
+p_replay.textContent = "To try again click 'retry' ";
+
+
 //End of draw loop
 }
-
 /***********************************************/
 // Called by Nia OR End of block_game
 /***********************************************/
