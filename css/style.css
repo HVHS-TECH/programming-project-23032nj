@@ -50,7 +50,11 @@ button {
  background-color: rgb(156, 190, 241);
  padding: 3px;
  justify-content: space-between;  
+}
+
+#gameEnd {
  display: none;
+
 }
 
 #complete {

@@ -117,9 +117,9 @@ function draw() {
 background ('#bfd7fa');
 
 //score display
-textSize(30);
+textSize(25);
 fill('#eb7184');
-text(score, GAMEWIDTH - 50 , 40 );
+text("Score: " + score, GAMEWIDTH - 125 , 40 );
 
 //moving the platform
 if (kb.pressing('left')) {
@@ -158,7 +158,7 @@ ball.collides (wallBottom, functionGameEnd)
 function functionGameEnd (wallBottom, Ball) {
 ball.remove();
 console.log("Game over. You got " + score + " points.");
-containerEnd.style.display = "block";
+gameEnd.style.display = "block";
 
 }
 
