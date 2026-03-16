@@ -5,18 +5,15 @@
 /***********************************************/
 
 //defining constants
-const GAMEWIDTH = 700;
-const GAMEHEIGHT = 800;
-
+const GAMEWIDTH = 650;
+const GAMEHEIGHT = 700;
 const BALLDIAMETER = 30;
-
-const PLATFORMXPOSITION = 400;
+const PLATFORMXPOSITION = GAMEWIDTH/2;
+const PLATFORMYPOSITION = GAMEHEIGHT - 70;
 const PLATFORMWIDTH = 130;
-const PLATFORMHEIGHT = 10;
-
-const BLOCKWIDTH = 75;
+const PLATFORMHEIGHT = 5;
+const BLOCKWIDTH = 65;
 const BLOCKHEIGHT = 30;
-
 const WALLDEPTH = 8;
 
 //defining variables
@@ -24,19 +21,22 @@ let score = 0;
 let blockRowColor = "#f3c1e0";
 let colorArray = ['#febdb1', '#d6fda9', '#a8deff'];
 
-//Preload function
+/*******************************************************/
+// preload()
+/*******************************************************/
+
 function preload() {
 imgBall = loadImage('../assets/images/ballimg.png');
 }	
+
 /*******************************************************/
 // setup()
 /*******************************************************/
+
 function setup() {
 console.log("running game");
-
 cnv = new Canvas(GAMEWIDTH, GAMEHEIGHT);
 world.gravity.y = 0;
-
 
 //defining variables within setup
 randNum = random(10, GAMEWIDTH - 10);
@@ -44,23 +44,17 @@ randNum = random(10, GAMEWIDTH - 10);
 //running walls function
 walls() 
 
-/*******************************************************/
 // ball code
-/*******************************************************/
-ball = new Sprite(GAMEWIDTH/2, GAMEHEIGHT/2, BALLDIAMETER,'d');
+ball = new Sprite(GAMEWIDTH/2, PLATFORMYPOSITION - BALLDIAMETER, BALLDIAMETER,'d');
 ball.color = '#c587dd';
 ball.image = (imgBall);
 imgBall.resize(BALLDIAMETER, BALLDIAMETER);
 
-/*******************************************************/
-// platform code
-/*******************************************************/
-platform = new Sprite(PLATFORMXPOSITION, GAMEHEIGHT - 100, PLATFORMWIDTH, PLATFORMHEIGHT, 'k');
+//platform code
+platform = new Sprite(PLATFORMXPOSITION, PLATFORMYPOSITION, PLATFORMWIDTH, PLATFORMHEIGHT, 'k');
 platform.color = '#698fe7';
 
-/*******************************************************/
-// blocks code (better name than blocks needed)
-/*******************************************************/
+//blocks code
 blockCreate ()
 
 // deleting blocks 
@@ -72,14 +66,13 @@ score = score + 1;
 console.log(score);
 } 
 
-//Setup finished
+//setup() finished
 }
 
 /*******************************************************/
-// functions code
+// walls()
 /*******************************************************/
 
-// creating walls function
 function walls () {
 wallLeft  = new Sprite(WALLDEPTH/2, height/2, WALLDEPTH, height, 'k');
 wallLeft.color = '#eb7184';
@@ -94,32 +87,33 @@ wallBottom = new Sprite(width/2, GAMEHEIGHT - WALLDEPTH/2, width, WALLDEPTH, 'k'
 wallBottom.color = '#eb7184';
 }
 
-// creating blocks function
+
+/*******************************************************/
+// blockCreate()
+/*******************************************************/
+
 function blockCreate () {
  blockGroup = new Group();
  for (var row = 0; row < 4; row++) {
-  for (var i = 0; i < 7; i++) {
-    var block = new Sprite(i*100 + 50, row*45 + 75, BLOCKWIDTH, BLOCKHEIGHT, 'k');
-    block.color = blockRowColor;
-    blockGroup.add(block);
-   }
+   for (var i = 0; i < 7; i++) {
+     var block = new Sprite(i*80 + 80, row*45 + 75, BLOCKWIDTH, BLOCKHEIGHT, 'k');
+     block.color = blockRowColor;
+     blockGroup.add(block);
+    }
    blockRowColor = colorArray[row];
- //blockRandomColor = color(random(255), random(255), random(255))
  }
 }
-
 
 /*******************************************************/
 // draw()
 /*******************************************************/
 function draw() {		
-
 background ('#bfd7fa');
 
 //score display
+text(score, GAMEWIDTH - 50 , 40 );
 textSize(30);
 fill('#eb7184');
-text(score, GAMEWIDTH - 50 , 40 );
 
 //moving the platform
 if (kb.pressing('left')) {
@@ -145,9 +139,10 @@ if (platform.x < WALLDEPTH + PLATFORMWIDTH/2) {
 platform.x = WALLDEPTH + PLATFORMWIDTH/2;
 }
 
+//Once space is pressed
 if (kb.presses('space')) {
 ball.bounciness = 1;
-ball.vel.y = 3;
+ball.vel.y = -5;
 ball.friction = 0;
 ball.drag = 0;
 }
@@ -156,15 +151,14 @@ ball.drag = 0;
 ball.collides (wallBottom, functionGameEnd) 
 
 function functionGameEnd (wallBottom, Ball) {
-ball.remove();
-console.log("Game over. You got " + score + " points.");
-containerEnd.style.display = "block";
-
+ ball.remove();
+ console.log("Game over. You got " + score + " points.");
+ containerEnd.style.display = "block";
 }
 
 //When all the blocks have been deleted
 if (blockGroup.length = 0) {
-blockCreate () 
+ blockCreate () 
 }
 
 //Endscreen code
@@ -175,6 +169,7 @@ p_replay.textContent = "To try again click 'retry' ";
 
 //End of draw loop
 }
+
 /***********************************************/
 // Called by Nia OR End of block_game
 /***********************************************/

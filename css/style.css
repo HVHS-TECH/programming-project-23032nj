@@ -14,7 +14,13 @@ body {
  height: 800px;
  background-color: #bfd7fa;
  padding: 3px;
+ border: #eb7184;
+ border-width: 10px;
  justify-content: space-between;
+}
+
+.content {
+ justify-content: center;
 }
 
 .headerstyle {
@@ -40,7 +46,7 @@ button {
  font-family: "Atma", sans-serif;
  font-size: 20px;
  text-align: center;
- background-color: #a181ec;
+ background-color: #eb7184;
  padding: 5px;
 }
 
