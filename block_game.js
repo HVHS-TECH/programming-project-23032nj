@@ -96,7 +96,7 @@ function blockCreate () {
  blockGroup = new Group();
  for (var row = 0; row < 4; row++) {
    for (var i = 0; i < 7; i++) {
-     var block = new Sprite(i*80 + 80, row*45 + 75, BLOCKWIDTH, BLOCKHEIGHT, 'k');
+     var block = new Sprite(i*80 + 83, row*45 + 75, BLOCKWIDTH, BLOCKHEIGHT, 'k');
      block.color = blockRowColor;
      blockGroup.add(block);
     }
@@ -111,16 +111,16 @@ function draw() {
 background ('#bfd7fa');
 
 //score display
-text(score, GAMEWIDTH - 50 , 40 );
-textSize(30);
+text('Score: ' + score, GAMEWIDTH - 150 , 40 );
+textSize(25);
 fill('#eb7184');
 
 //moving the platform
 if (kb.pressing('left')) {
-platform.vel.x = '-10';
+platform.vel.x = '-8';
 }
 else if (kb.pressing ('right')) {
-platform.vel.x = '10';
+platform.vel.x = '8';
 }
 
 if (kb.released('left')) {
