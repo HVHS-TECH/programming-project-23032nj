@@ -10,17 +10,19 @@ body {
 }
 
 .container {
- width: 700px;
- height: 800px;
+ width: 650px;
+ height: 700px;
  background-color: #bfd7fa;
  padding: 3px;
  border: #eb7184;
  border-width: 10px;
- justify-content: space-between;
 }
 
 .content {
+ display: flex;
+ flex-direction: column;
  justify-content: center;
+ align-items: center;
 }
 
 .headerstyle {
@@ -35,7 +37,7 @@ body {
  font-size: 30px;
 }
 
-.rulestyle {
+.textstyle {
  font-family:Georgia, Times, 'Times New Roman', serif;
  font-size: 20px;
  text-align: center;
@@ -43,6 +45,7 @@ body {
 }
 
 button {
+ width: 100px;
  font-family: "Atma", sans-serif;
  font-size: 20px;
  text-align: center;
@@ -51,11 +54,11 @@ button {
 }
 
 .containerEnd {
- width: 700px;
- height: 800px;
- background-color: rgb(156, 190, 241);
+ width: 650px;
+ height: 700px;
+ background-color: #bfd7fa;
  padding: 3px;
- justify-content: center;  
+ position: absolute;
 }
 
 #gameEnd {
