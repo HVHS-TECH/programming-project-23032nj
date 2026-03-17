@@ -153,7 +153,7 @@ ball.collides (wallBottom, functionGameEnd)
 function functionGameEnd (wallBottom, Ball) {
  ball.remove();
  console.log("Game over. You got " + score + " points.");
- containerEnd.style.display = "block";
+ gameEnd.style.display = "block";
 }
 
 //When all the blocks have been deleted
