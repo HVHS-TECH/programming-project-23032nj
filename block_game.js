@@ -5,16 +5,16 @@
 /***********************************************/
 
 //defining constants
-const GAMEWIDTH = 650;
-const GAMEHEIGHT = 700;
-const BALLDIAMETER = 30;
-const PLATFORMXPOSITION = GAMEWIDTH / 2;
-const PLATFORMYPOSITION = GAMEHEIGHT - 70;
-const PLATFORMWIDTH = 130;
-const PLATFORMHEIGHT = 5;
-const BLOCKWIDTH = 65;
-const BLOCKHEIGHT = 30;
-const WALLDEPTH = 8;
+const GAME_WIDTH = 650;
+const GAME_HEIGHT = 700;
+const BALL_DIAMETER = 30;
+const PLATFORM_POSITION_X = GAME_WIDTH / 2;
+const PLATFORM_POSITION_Y = GAME_HEIGHT - 70;
+const PLATFORM_WIDTH = 130;
+const PLATFORM_HEIGHT = 5;
+const BLOCK_WIDTH = 65;
+const BLOCK_HEIGHT = 30;
+const WALL_DEPTH = 8;
 
 //defining variables
 let score = 0;
@@ -35,32 +35,32 @@ function preload() {
 
 function setup() {
   console.log("running game");
-  cnv = new Canvas(GAMEWIDTH, GAMEHEIGHT);
+  cnv = new Canvas(GAME_WIDTH, GAME_HEIGHT);
   world.gravity.y = 0;
 
   //defining variables within setup
-  randNum = random(10, GAMEWIDTH - 10);
+  randNum = random(10, GAME_WIDTH - 10);
 
   //running walls function
   walls()
 
   // ball code
-  ball = new Sprite(GAMEWIDTH/2, PLATFORMYPOSITION - BALLDIAMETER, BALLDIAMETER, 'd');
+  ball = new Sprite(60, PLATFORM_POSITION_Y - BALL_DIAMETER, BALL_DIAMETER, 'd');
   ball.color = '#c587dd';
   ball.image = (imgBall);
-  imgBall.resize(BALLDIAMETER, BALLDIAMETER);
+  imgBall.resize(BALL_DIAMETER, BALL_DIAMETER);
 
   //platform code
-  platform = new Sprite(PLATFORMXPOSITION, PLATFORMYPOSITION, PLATFORMWIDTH, PLATFORMHEIGHT, 'k');
+  platform = new Sprite(PLATFORM_POSITION_X, PLATFORM_POSITION_Y, PLATFORM_WIDTH, PLATFORM_HEIGHT, 'k');
   platform.color = '#698fe7';
 
   //blocks code
   blockCreate()
 
   // deleting blocks 
-  blockGroup.collides(ball, func2Call);
+  blockGroup.collides(ball, ballCollideBlock);
 
-  function func2Call(block, ball) {
+  function ballCollideBlock (block, ball) {
     block.remove();
     score = score + 1;
     console.log(score);
@@ -74,16 +74,16 @@ function setup() {
 /*******************************************************/
 
 function walls() {
-  wallLeft = new Sprite(WALLDEPTH / 2, height / 2, WALLDEPTH, height, 'k');
+  wallLeft = new Sprite(WALL_DEPTH / 2, height / 2, WALL_DEPTH, height, 'k');
   wallLeft.color = '#eb7184';
 
-  wallRight = new Sprite(GAMEWIDTH - WALLDEPTH / 2, height / 2, WALLDEPTH, height, 'k');
+  wallRight = new Sprite(GAME_WIDTH - WALL_DEPTH / 2, height / 2, WALL_DEPTH, height, 'k');
   wallRight.color = '#eb7184';
 
-  wallTop = new Sprite(width / 2, WALLDEPTH / 2, width, WALLDEPTH, 'k');
+  wallTop = new Sprite(width / 2, WALL_DEPTH / 2, width, WALL_DEPTH, 'k');
   wallTop.color = '#eb7184';
 
-  wallBottom = new Sprite(width / 2, GAMEHEIGHT - WALLDEPTH / 2, width, WALLDEPTH, 'k');
+  wallBottom = new Sprite(width / 2, GAME_HEIGHT - WALL_DEPTH / 2, width, WALL_DEPTH, 'k');
   wallBottom.color = '#eb7184';
 }
 
@@ -96,7 +96,7 @@ function blockCreate() {
   blockGroup = new Group();
   for (var row = 0; row < 4; row++) {
     for (var i = 0; i < 7; i++) {
-      var block = new Sprite(i * 80 + 83, row * 45 + 75, BLOCKWIDTH, BLOCKHEIGHT, 'k');
+      var block = new Sprite(i * 80 + 83, row * 45 + 75, BLOCK_WIDTH, BLOCK_HEIGHT, 'k');
       block.color = blockRowColor;
       blockGroup.add(block);
     }
@@ -111,7 +111,7 @@ function draw() {
   background('#bfd7fa');
 
   //score display
-  text('Score: ' + score, GAMEWIDTH - 150, 40);
+  text('Score: ' + score, GAME_WIDTH - 150, 40);
   textSize(25);
   fill('#eb7184');
 
@@ -131,20 +131,25 @@ function draw() {
     platform.vel.x = '0';
   }
 
-  if (platform.x >= GAMEWIDTH - PLATFORMWIDTH / 2 - 5) {
-    platform.x = GAMEWIDTH - PLATFORMWIDTH / 2 - WALLDEPTH;
+  if (platform.x >= GAME_WIDTH - PLATFORM_WIDTH / 2 - 5) {
+    platform.x = GAME_WIDTH - PLATFORM_WIDTH / 2 - WALL_DEPTH;
   }
 
-  if (platform.x < WALLDEPTH + PLATFORMWIDTH / 2) {
-    platform.x = WALLDEPTH + PLATFORMWIDTH / 2;
+  if (platform.x < WALL_DEPTH + PLATFORM_WIDTH / 2) {
+    platform.x = WALL_DEPTH + PLATFORM_WIDTH / 2;
   }
 
   //Once space is pressed
   if (kb.presses('space')) {
     ball.bounciness = 1;
-    ball.vel.y = -5;
+    ball.vel.y = -6;
     ball.friction = 0;
     ball.drag = 0;
+  }
+
+  //When all the blocks have been deleted
+  if (blockGroup.length == 0) {
+    blockCreate();
   }
 
   //Game ends when the ball hits the bottom
@@ -156,16 +161,10 @@ function draw() {
     gameEnd.style.display = "block";
   }
 
-  //When all the blocks have been deleted
-  if (blockGroup.length == 0) {
-    blockCreate()
-  }
-
   //Endscreen code
   p_heading.textContent = "You lost!";
-  p_score.textContent = "You got " + score + " points. Congratulations";
+  p_score.textContent = "You got " + score + " points. Congratulations!!";
   p_replay.textContent = "To try again click 'retry' ";
-
 
   //End of draw loop
 }
