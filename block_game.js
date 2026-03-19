@@ -26,7 +26,7 @@ let colorArray = ['#febdb1', '#d6fda9', '#a8deff'];
 /*******************************************************/
 
 function preload() {
-  imgBall = loadImage('../assets/images/ballimg.png');
+  imgBall = loadImage('assets/images/ballimg.png');
 }
 
 /*******************************************************/
