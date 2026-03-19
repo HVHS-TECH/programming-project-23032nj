@@ -5,18 +5,6 @@
 /***********************************************/
 
 //defining constants
-<<<<<<< HEAD
-const GAMEWIDTH = 650;
-const GAMEHEIGHT = 700;
-const BALLDIAMETER = 30;
-const PLATFORMXPOSITION = GAMEWIDTH / 2 + 68;
-const PLATFORMYPOSITION = GAMEHEIGHT - 70;
-const PLATFORMWIDTH = 130;
-const PLATFORMHEIGHT = 5;
-const BLOCKWIDTH = 65;
-const BLOCKHEIGHT = 30;
-const WALLDEPTH = 8;
-=======
 const GAME_WIDTH = 650;
 const GAME_HEIGHT = 700;
 const BALL_DIAMETER = 30;
@@ -27,7 +15,6 @@ const PLATFORM_HEIGHT = 5;
 const BLOCK_WIDTH = 65;
 const BLOCK_HEIGHT = 30;
 const WALL_DEPTH = 8;
->>>>>>> fb72354da9b5da4229e3536fcf302bc5cc750c3f
 
 //defining variables
 let score = 0;
@@ -58,7 +45,7 @@ function setup() {
   walls()
 
   // ball code
-  ball = new Sprite(60, PLATFORM_POSITION_Y - BALL_DIAMETER, BALL_DIAMETER, 'd');
+  ball = new Sprite(PLATFORM_POSITION_X, PLATFORM_POSITION_Y - BALL_DIAMETER, BALL_DIAMETER, 'd');
   ball.color = '#c587dd';
   ball.image = (imgBall);
   imgBall.resize(BALL_DIAMETER, BALL_DIAMETER);
