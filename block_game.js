@@ -20,6 +20,9 @@ const WALL_DEPTH = 8;
 let score = 0;
 let blockRowColor = "#f3c1e0";
 let colorArray = ['#febdb1', '#d6fda9', '#a8deff'];
+randNum = random(0, 800);
+let powerUp = blockGroup[randNum];
+
 
 /*******************************************************/
 // preload()
@@ -37,9 +40,6 @@ function setup() {
   console.log("running game");
   cnv = new Canvas(GAME_WIDTH, GAME_HEIGHT);
   world.gravity.y = 0;
-
-  //defining variables within setup
-  randNum = random(10, GAME_WIDTH - 10);
 
   //running walls function
   walls()
