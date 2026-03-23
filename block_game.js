@@ -45,7 +45,7 @@ function setup() {
   walls()
 
   // ball code
-  ball = new Sprite(PLATFORM_POSITION_X, PLATFORM_POSITION_Y - BALL_DIAMETER, BALL_DIAMETER, 'd');
+  ball = new Sprite(60, PLATFORM_POSITION_Y - BALL_DIAMETER, BALL_DIAMETER, 'd');
   ball.color = '#c587dd';
   ball.image = (imgBall);
   imgBall.resize(BALL_DIAMETER + 5, BALL_DIAMETER + 5);
@@ -63,7 +63,9 @@ function setup() {
   function ballCollideBlock (block, ball) {
     block.remove();
     score = score + 1;
-    console.log(score);
+    console.log("Score: " + score);
+    console.log("length: " + blockGroup.length);
+
   }
 
   //setup() finished
@@ -94,8 +96,8 @@ function walls() {
 
 function blockCreate() {
   blockGroup = new Group();
-  for (var row = 0; row < 4; row++) {
-    for (var i = 0; i < 7; i++) {
+  for (var row = 0; row < 2; row++) {
+    for (var i = 0; i < 1; i++) {
       var block = new Sprite(i * 80 + 83, row * 45 + 75, BLOCK_WIDTH, BLOCK_HEIGHT, 'k');
       block.color = blockRowColor;
       blockGroup.add(block);
@@ -109,6 +111,7 @@ function blockCreate() {
 /*******************************************************/
 function draw() {
   background('#bfd7fa');
+    console.log(blockGroup.length);
 
   //score display
   text('Score: ' + score, GAME_WIDTH - 150, 40);
@@ -145,7 +148,7 @@ function draw() {
 
     ball.bounciness = 1;
     ball.vel.y = -6;
-    ball.vel.x = ballVelocityX;
+    //ball.vel.x = ballVelocityX;
     ball.friction = 0;
     ball.drag = 0;
     spaceReturn = true;
@@ -154,6 +157,9 @@ function draw() {
   //When all the blocks have been deleted
   if (blockGroup.length == 0) {
     blockCreate();
+    console.log("block create run");
+    ball.position.x = 60;
+    ball.position.y = 600;
   }
 
   //Game ends when the ball hits the bottom
@@ -161,6 +167,7 @@ function draw() {
 
   function functionGameEnd(wallBottom, Ball) {
     ball.remove();
+    platform.remove()
     console.log("Game over. You got " + score + " points.");
     gameEnd.style.display = "block";
   }
