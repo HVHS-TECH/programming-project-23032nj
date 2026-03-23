@@ -20,9 +20,9 @@ const WALL_DEPTH = 8;
 let score = 0;
 let blockRowColor = "#f3c1e0";
 let colorArray = ['#febdb1', '#d6fda9', '#a8deff'];
-randNum = random(0, 800);
-let powerUp = blockGroup[randNum];
-
+let spaceReturn = false;
+//randNum = random(0, 800);
+//let powerUp = blockGroup[randNum];
 
 /*******************************************************/
 // preload()
@@ -140,11 +140,15 @@ function draw() {
   }
 
   //Once space is pressed
-  if (kb.presses('space')) {
+  if (kb.presses('space') && (spaceReturn == false)) {
+    let ballVelocityX = random(-6, 6);
+
     ball.bounciness = 1;
     ball.vel.y = -6;
+    ball.vel.x = ballVelocityX;
     ball.friction = 0;
     ball.drag = 0;
+    spaceReturn = true;
   }
 
   //When all the blocks have been deleted
