@@ -48,7 +48,7 @@ function setup() {
   ball = new Sprite(PLATFORM_POSITION_X, PLATFORM_POSITION_Y - BALL_DIAMETER, BALL_DIAMETER, 'd');
   ball.color = '#c587dd';
   ball.image = (imgBall);
-  imgBall.resize(BALL_DIAMETER, BALL_DIAMETER);
+  imgBall.resize(BALL_DIAMETER + 5, BALL_DIAMETER + 5);
 
   //platform code
   platform = new Sprite(PLATFORM_POSITION_X, PLATFORM_POSITION_Y, PLATFORM_WIDTH, PLATFORM_HEIGHT, 'k');
