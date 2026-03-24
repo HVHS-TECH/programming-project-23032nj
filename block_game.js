@@ -22,10 +22,7 @@ let blockRowColor = "#f3c1e0";
 let colorArray = ['#febdb1', '#d6fda9', '#a8deff', "#F3C1E0"];
 let spaceReturn = false;
 
-let specialBlockRow;
-let specialBlockColumn;
-//randNum = random(0, 800);
-//let powerUp = blockGroup[randNum];
+let specialBlocks = [];
 
 /*******************************************************/
 // preload()
@@ -57,6 +54,8 @@ function setup() {
   //running walls function
   walls();
 
+  createSpecialBlocks();
+
   //blocks code
   blockCreate();
 
@@ -84,6 +83,26 @@ function walls() {
   wallBottom.color = '#eb7184';
 }
 
+
+function createSpecialBlocks() {
+  specialBlocks = [];
+  for (var i = 0; i < 3; i++) {
+    let specialBlock = {};
+    specialBlock.row = Math.round(random(0, 3));
+    specialBlock.column = Math.round(random(0, 6));
+    specialBlocks.push(specialBlock);
+  }
+}
+
+function getSpecialBlock(rowToCheck, columnToCheck) {
+  for (var i = 0; i < specialBlocks.length; i++) {
+    if (specialBlocks[i].row == rowToCheck && specialBlocks[i].column == columnToCheck) {
+      return specialBlocks[i];
+    }
+  }
+  return undefined;
+}
+
 /*******************************************************/
 // blockCreate()
 /*******************************************************/
@@ -91,14 +110,12 @@ function walls() {
 
 
 function blockCreate() {
-  specialBlockRow = Math.round(random(0, 3));
-  specialBlockColumn = Math.round(random(0, 6));
   blockGroup = new Group();
-  console.log(specialBlockColumn, specialBlockRow);
   for (var row = 0; row < 4; row++) {
     for (var i = 0; i < 7; i++) {
       var block = new Sprite(i * 80 + 83, row * 45 + 75, BLOCK_WIDTH, BLOCK_HEIGHT, 'k');
-      if (row == specialBlockRow && i == specialBlockColumn) {
+      let sb = getSpecialBlock(row, i);
+      if (sb != undefined) {
         block.color = '#eb7184';
       } else {
         block.color = blockRowColor;
@@ -120,7 +137,8 @@ function blockDelete() {
 
   function ballCollideBlock (block, ball) {
     block.remove();
-    if (block.row == specialBlockRow && block.column == specialBlockColumn) {
+    let specialBlock = getSpecialBlock(block.row, block.column)
+    if (specialBlock != undefined) {
         score = score + 5;
       } else {
         score = score + 1;
@@ -180,6 +198,7 @@ function draw() {
 
   //When all the blocks have been deleted
   if (blockGroup.length == 0) {
+    createSpecialBlocks();
     blockCreate();
     blockDelete();
     console.log("block create run");
