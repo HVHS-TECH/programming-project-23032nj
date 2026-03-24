@@ -21,6 +21,9 @@ let score = 0;
 let blockRowColor = "#f3c1e0";
 let colorArray = ['#febdb1', '#d6fda9', '#a8deff', "#F3C1E0"];
 let spaceReturn = false;
+
+let specialBlockRow;
+let specialBlockColumn;
 //randNum = random(0, 800);
 //let powerUp = blockGroup[randNum];
 
@@ -85,12 +88,23 @@ function walls() {
 // blockCreate()
 /*******************************************************/
 
+
+
 function blockCreate() {
+  specialBlockRow = Math.round(random(0, 3));
+  specialBlockColumn = Math.round(random(0, 6));
   blockGroup = new Group();
+  console.log(specialBlockColumn, specialBlockRow);
   for (var row = 0; row < 4; row++) {
     for (var i = 0; i < 7; i++) {
       var block = new Sprite(i * 80 + 83, row * 45 + 75, BLOCK_WIDTH, BLOCK_HEIGHT, 'k');
-      block.color = blockRowColor;
+      if (row == specialBlockRow && i == specialBlockColumn) {
+        block.color = '#eb7184';
+      } else {
+        block.color = blockRowColor;
+      }    
+      block.row = row;
+      block.column = i;
       blockGroup.add(block);
     }
     blockRowColor = colorArray[row];
@@ -106,11 +120,17 @@ function blockDelete() {
 
   function ballCollideBlock (block, ball) {
     block.remove();
-    score = score + 1;
+    if (block.row == specialBlockRow && block.column == specialBlockColumn) {
+        score = score + 5;
+      } else {
+        score = score + 1;
+      }
     console.log("Score: " + score);
     console.log("length: " + blockGroup.length);
+    console.log(block.row);
   }
 }
+
 /*******************************************************/
 // draw()
 /*******************************************************/
