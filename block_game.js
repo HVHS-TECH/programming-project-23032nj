@@ -19,7 +19,7 @@ const WALL_DEPTH = 8;
 //defining variables
 let score = 0;
 let blockRowColor = "#f3c1e0";
-let colorArray = ['#febdb1', '#d6fda9', '#a8deff'];
+let colorArray = ['#febdb1', '#d6fda9', '#a8deff', "#F3C1E0"];
 let spaceReturn = false;
 //randNum = random(0, 800);
 //let powerUp = blockGroup[randNum];
@@ -41,11 +41,8 @@ function setup() {
   cnv = new Canvas(GAME_WIDTH, GAME_HEIGHT);
   world.gravity.y = 0;
 
-  //running walls function
-  walls()
-
   // ball code
-  ball = new Sprite(60, PLATFORM_POSITION_Y - BALL_DIAMETER, BALL_DIAMETER, 'd');
+  ball = new Sprite(PLATFORM_POSITION_X, PLATFORM_POSITION_Y - BALL_DIAMETER, BALL_DIAMETER, 'd');
   ball.color = '#c587dd';
   ball.image = (imgBall);
   imgBall.resize(BALL_DIAMETER + 5, BALL_DIAMETER + 5);
@@ -54,19 +51,14 @@ function setup() {
   platform = new Sprite(PLATFORM_POSITION_X, PLATFORM_POSITION_Y, PLATFORM_WIDTH, PLATFORM_HEIGHT, 'k');
   platform.color = '#698fe7';
 
+  //running walls function
+  walls();
+
   //blocks code
-  blockCreate()
+  blockCreate();
 
   // deleting blocks 
-  blockGroup.collides(ball, ballCollideBlock);
-
-  function ballCollideBlock (block, ball) {
-    block.remove();
-    score = score + 1;
-    console.log("Score: " + score);
-    console.log("length: " + blockGroup.length);
-
-  }
+  blockDelete();
 
   //setup() finished
 }
@@ -89,15 +81,14 @@ function walls() {
   wallBottom.color = '#eb7184';
 }
 
-
 /*******************************************************/
 // blockCreate()
 /*******************************************************/
 
 function blockCreate() {
   blockGroup = new Group();
-  for (var row = 0; row < 2; row++) {
-    for (var i = 0; i < 1; i++) {
+  for (var row = 0; row < 4; row++) {
+    for (var i = 0; i < 7; i++) {
       var block = new Sprite(i * 80 + 83, row * 45 + 75, BLOCK_WIDTH, BLOCK_HEIGHT, 'k');
       block.color = blockRowColor;
       blockGroup.add(block);
@@ -107,11 +98,24 @@ function blockCreate() {
 }
 
 /*******************************************************/
+// blockDelete()
+/*******************************************************/
+
+function blockDelete() {
+  blockGroup.collides(ball, ballCollideBlock);
+
+  function ballCollideBlock (block, ball) {
+    block.remove();
+    score = score + 1;
+    console.log("Score: " + score);
+    console.log("length: " + blockGroup.length);
+  }
+}
+/*******************************************************/
 // draw()
 /*******************************************************/
 function draw() {
   background('#bfd7fa');
-    console.log(blockGroup.length);
 
   //score display
   text('Score: ' + score, GAME_WIDTH - 150, 40);
@@ -142,13 +146,13 @@ function draw() {
     platform.x = WALL_DEPTH + PLATFORM_WIDTH / 2;
   }
 
-  //Once space is pressed
+  //Once space is pressed ball starts moving
   if (kb.presses('space') && (spaceReturn == false)) {
     let ballVelocityX = random(-6, 6);
 
     ball.bounciness = 1;
     ball.vel.y = -6;
-    //ball.vel.x = ballVelocityX;
+    ball.vel.x = ballVelocityX;
     ball.friction = 0;
     ball.drag = 0;
     spaceReturn = true;
@@ -157,9 +161,15 @@ function draw() {
   //When all the blocks have been deleted
   if (blockGroup.length == 0) {
     blockCreate();
+    blockDelete();
     console.log("block create run");
-    ball.position.x = 60;
-    ball.position.y = 600;
+    platform.position.x = PLATFORM_POSITION_X;
+    platform.position.y = PLATFORM_POSITION_Y;
+    ball.position.x = PLATFORM_POSITION_X;
+    ball.position.y = PLATFORM_POSITION_Y - BALL_DIAMETER;
+    ball.vel.x = 0;
+    ball.vel.y = 0;
+    spaceReturn = false;
   }
 
   //Game ends when the ball hits the bottom
