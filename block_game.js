@@ -22,7 +22,7 @@ let blockRowColor = "#f3c1e0";
 let colorArray = ['#febdb1', '#d6fda9', '#a8deff', "#F3C1E0"];
 let spaceReturn = false;
 
-let specialBlocks = [];
+let powerUpBlocks = [];
 
 /*******************************************************/
 // preload()
@@ -83,21 +83,24 @@ function walls() {
   wallBottom.color = '#eb7184';
 }
 
+/*******************************************************/
+// walls()
+/*******************************************************/
 
 function createSpecialBlocks() {
-  specialBlocks = [];
+  powerUpBlocks = [];
   for (var i = 0; i < 3; i++) {
     let specialBlock = {};
     specialBlock.row = Math.round(random(0, 3));
     specialBlock.column = Math.round(random(0, 6));
-    specialBlocks.push(specialBlock);
+    powerUpBlocks.push(specialBlock);
   }
 }
 
 function getSpecialBlock(rowToCheck, columnToCheck) {
-  for (var i = 0; i < specialBlocks.length; i++) {
-    if (specialBlocks[i].row == rowToCheck && specialBlocks[i].column == columnToCheck) {
-      return specialBlocks[i];
+  for (var i = 0; i < powerUpBlocks.length; i++) {
+    if (powerUpBlocks[i].row == rowToCheck && powerUpBlocks[i].column == columnToCheck) {
+      return powerUpBlocks[i];
     }
   }
   return undefined;
@@ -106,8 +109,6 @@ function getSpecialBlock(rowToCheck, columnToCheck) {
 /*******************************************************/
 // blockCreate()
 /*******************************************************/
-
-
 
 function blockCreate() {
   blockGroup = new Group();
