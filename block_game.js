@@ -20,6 +20,8 @@ const WALL_DEPTH = 8;
 let score = 0;
 let blockRowColor = "#f3c1e0";
 let colorArray = ['#febdb1', '#d6fda9', '#a8deff', "#F3C1E0"];
+
+let blockCreateRound = -4;
 let spaceReturn = false;
 
 let powerUpBlocks = [];
@@ -54,7 +56,7 @@ function setup() {
   //running walls function
   walls();
 
-  createSpecialBlocks();
+  createPowerUpBlocks();
 
   //blocks code
   blockCreate();
@@ -87,17 +89,17 @@ function walls() {
 // walls()
 /*******************************************************/
 
-function createSpecialBlocks() {
+function createPowerUpBlocks() {
   powerUpBlocks = [];
   for (var i = 0; i < 3; i++) {
-    let specialBlock = {};
-    specialBlock.row = Math.round(random(0, 3));
-    specialBlock.column = Math.round(random(0, 6));
-    powerUpBlocks.push(specialBlock);
+    let powerUpBlock = {};
+    powerUpBlock.row = Math.round(random(0, 3));
+    powerUpBlock.column = Math.round(random(0, 6));
+    powerUpBlocks.push(powerUpBlock);
   }
 }
 
-function getSpecialBlock(rowToCheck, columnToCheck) {
+function getPowerUpBlock(rowToCheck, columnToCheck) {
   for (var i = 0; i < powerUpBlocks.length; i++) {
     if (powerUpBlocks[i].row == rowToCheck && powerUpBlocks[i].column == columnToCheck) {
       return powerUpBlocks[i];
@@ -113,20 +115,24 @@ function getSpecialBlock(rowToCheck, columnToCheck) {
 function blockCreate() {
   blockGroup = new Group();
   for (var row = 0; row < 4; row++) {
-    for (var i = 0; i < 7; i++) {
-      var block = new Sprite(i * 80 + 83, row * 45 + 75, BLOCK_WIDTH, BLOCK_HEIGHT, 'k');
-      let sb = getSpecialBlock(row, i);
-      if (sb != undefined) {
-        block.color = '#eb7184';
+    for (var column = 0; column < 7; column++) {
+      var block = new Sprite(column * 80 + 83, row * 45 + 75, BLOCK_WIDTH, BLOCK_HEIGHT, 'k');
+      let powerUpCheck = getPowerUpBlock(row, column);
+      if (powerUpCheck != undefined) {
+        block.color = '#bc8dfd';
       } else {
         block.color = blockRowColor;
       }    
       block.row = row;
-      block.column = i;
+      block.column = column;
       blockGroup.add(block);
     }
     blockRowColor = colorArray[row];
   }
+  blockCreateRound = blockCreateRound - 1;
+  console.log(powerUpBlocks[0]);
+  console.log(powerUpBlocks[1]);
+  console.log(powerUpBlocks[2]);
 }
 
 /*******************************************************/
@@ -138,15 +144,12 @@ function blockDelete() {
 
   function ballCollideBlock (block, ball) {
     block.remove();
-    let specialBlock = getSpecialBlock(block.row, block.column)
-    if (specialBlock != undefined) {
+    let powerUpBlock = getPowerUpBlock(block.row, block.column)
+    if (powerUpBlock != undefined) {
         score = score + 5;
       } else {
         score = score + 1;
       }
-    console.log("Score: " + score);
-    console.log("length: " + blockGroup.length);
-    console.log(block.row);
   }
 }
 
@@ -190,7 +193,7 @@ function draw() {
     let ballVelocityX = random(-6, 6);
 
     ball.bounciness = 1;
-    ball.vel.y = -6;
+    ball.vel.y = blockCreateRound -0.5;
     ball.vel.x = ballVelocityX;
     ball.friction = 0;
     ball.drag = 0;
@@ -199,7 +202,7 @@ function draw() {
 
   //When all the blocks have been deleted
   if (blockGroup.length == 0) {
-    createSpecialBlocks();
+    createPowerUpBlocks();
     blockCreate();
     blockDelete();
     console.log("block create run");
@@ -218,6 +221,8 @@ function draw() {
   function functionGameEnd(wallBottom, Ball) {
     ball.remove();
     platform.remove()
+    blockGroup.remove();
+    blockCreateRound = 0;
     console.log("Game over. You got " + score + " points.");
     gameEnd.style.display = "block";
   }
