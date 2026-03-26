@@ -39,30 +39,32 @@ function preload() {
 /*******************************************************/
 
 function setup() {
+
   console.log("running game");
   cnv = new Canvas(GAME_WIDTH, GAME_HEIGHT);
   world.gravity.y = 0;
 
-  // ball code
+  // creating ball code
   ball = new Sprite(PLATFORM_POSITION_X, PLATFORM_POSITION_Y - BALL_DIAMETER, BALL_DIAMETER, 'd');
   ball.color = '#c587dd';
   ball.image = (imgBall);
   imgBall.resize(BALL_DIAMETER + 5, BALL_DIAMETER + 5);
 
-  //platform code
+  //creating platform code
   platform = new Sprite(PLATFORM_POSITION_X, PLATFORM_POSITION_Y, PLATFORM_WIDTH, PLATFORM_HEIGHT, 'k');
   platform.color = '#698fe7';
 
-  //running walls function
+  //running creating walls function
   walls();
 
+  //running creating power up blocks function 
   createPowerUpBlocks();
 
-  //blocks code
+  //running creating blocks function
   blockCreate();
 
-  // deleting blocks 
-  blockDelete();
+  //running block hit function
+  blockHit();
 
   //setup() finished
 }
@@ -86,7 +88,7 @@ function walls() {
 }
 
 /*******************************************************/
-// walls()
+// createPowerUpBlocks()
 /*******************************************************/
 
 function createPowerUpBlocks() {
@@ -95,9 +97,20 @@ function createPowerUpBlocks() {
     let powerUpBlock = {};
     powerUpBlock.row = Math.round(random(0, 3));
     powerUpBlock.column = Math.round(random(0, 6));
+  // while (powerUpBlock[0].row && powerUpBlock[0].column == powerUpblock[1].row && powerUpBlock[1].column ||
+  //        powerUpBlock[0].row && powerUpBlock[0].column == powerUpblock[2].row && powerUpBlock[2].column ||
+   //       powerUpBlock[1].row && powerUpBlock[1].column == powerUpblock[2].row && powerUpBlock[2].column ||)
+  // {
+ //  powerUpBlock.row = Math.round(random(0, 3));
+  // powerUpBlock.column = Math.round(random(0, 6));  
+ //  }
     powerUpBlocks.push(powerUpBlock);
   }
 }
+
+/*******************************************************/
+// getPowerUpBlock()
+/*******************************************************/
 
 function getPowerUpBlock(rowToCheck, columnToCheck) {
   for (var i = 0; i < powerUpBlocks.length; i++) {
@@ -136,10 +149,10 @@ function blockCreate() {
 }
 
 /*******************************************************/
-// blockDelete()
+// blockHit()
 /*******************************************************/
 
-function blockDelete() {
+function blockHit() {
   blockGroup.collides(ball, ballCollideBlock);
 
   function ballCollideBlock (block, ball) {
@@ -154,17 +167,32 @@ function blockDelete() {
 }
 
 /*******************************************************/
+// functionGameEnd()
+/*******************************************************/
+
+  function functionGameEnd(wallBottom, Ball) {
+    ball.remove();
+    platform.remove()
+    //Not removing blockGroup so that powerUpBlocks don't recreate
+    blockCreateRound = 0;
+    console.log("Game over. You got " + score + " points.");
+    console.log(blockGroup.length);
+    gameEnd.style.display = "block";
+  }
+
+/*******************************************************/
 // draw()
 /*******************************************************/
 function draw() {
+
   background('#bfd7fa');
 
-  //score display
+  //displaying the score
   text('Score: ' + score, GAME_WIDTH - 150, 40);
   textSize(25);
   fill('#eb7184');
 
-  //moving the platform
+  //creating platform movement
   if (kb.pressing('left')) {
     platform.vel.x = '-8';
   }
@@ -180,6 +208,7 @@ function draw() {
     platform.vel.x = '0';
   }
 
+  //creating platform limits
   if (platform.x >= GAME_WIDTH - PLATFORM_WIDTH / 2 - 5) {
     platform.x = GAME_WIDTH - PLATFORM_WIDTH / 2 - WALL_DEPTH;
   }
@@ -188,10 +217,9 @@ function draw() {
     platform.x = WALL_DEPTH + PLATFORM_WIDTH / 2;
   }
 
-  //Once space is pressed ball starts moving
+  //At the start of eachb round, when space is pressed ball starts moving
   if (kb.presses('space') && (spaceReturn == false)) {
     let ballVelocityX = random(-6, 6);
-
     ball.bounciness = 1;
     ball.vel.y = blockCreateRound -0.5;
     ball.vel.x = ballVelocityX;
@@ -200,12 +228,14 @@ function draw() {
     spaceReturn = true;
   }
 
-  //When all the blocks have been deleted
+  //When all the blocks have been hit
   if (blockGroup.length == 0) {
+    //recreate the blocks
     createPowerUpBlocks();
     blockCreate();
-    blockDelete();
-    console.log("block create run");
+    blockHit();
+
+    //reset the ball and platform
     platform.position.x = PLATFORM_POSITION_X;
     platform.position.y = PLATFORM_POSITION_Y;
     ball.position.x = PLATFORM_POSITION_X;
@@ -218,16 +248,9 @@ function draw() {
   //Game ends when the ball hits the bottom
   ball.collides(wallBottom, functionGameEnd)
 
-  function functionGameEnd(wallBottom, Ball) {
-    ball.remove();
-    platform.remove()
-    blockGroup.remove();
-    blockCreateRound = 0;
-    console.log("Game over. You got " + score + " points.");
-    gameEnd.style.display = "block";
-  }
 
-  //Endscreen code
+
+  //Setting up endscreen text
   p_heading.textContent = "You lost!";
   p_score.textContent = "You got " + score + " points. Congratulations!!";
   p_replay.textContent = "To try again click 'retry' ";
@@ -236,5 +259,5 @@ function draw() {
 }
 
 /***********************************************/
-// Called by Nia OR End of block_game
+// End of block_game
 /***********************************************/
