@@ -93,18 +93,20 @@ function walls() {
 
 function createPowerUpBlocks() {
   powerUpBlocks = [];
-  for (var i = 0; i < 3; i++) {
-    let powerUpBlock = {};
-    powerUpBlock.row = Math.round(random(0, 3));
-    powerUpBlock.column = Math.round(random(0, 6));
-  // while (powerUpBlock[0].row && powerUpBlock[0].column == powerUpblock[1].row && powerUpBlock[1].column ||
-  //        powerUpBlock[0].row && powerUpBlock[0].column == powerUpblock[2].row && powerUpBlock[2].column ||
-   //       powerUpBlock[1].row && powerUpBlock[1].column == powerUpblock[2].row && powerUpBlock[2].column ||)
-  // {
- //  powerUpBlock.row = Math.round(random(0, 3));
-  // powerUpBlock.column = Math.round(random(0, 6));  
- //  }
-    powerUpBlocks.push(powerUpBlock);
+  while (powerUpBlocks.length < 3) {
+    let row = Math.round(random(0, 3));
+    let column = Math.round(random(0, 6));
+
+    let existingPowerBlock = getPowerUpBlock(row, column);
+    if (existingPowerBlock == undefined) {
+
+      let powerUpBlock = {}
+      powerUpBlock.row = row;
+      powerUpBlock.column = column;
+      powerUpBlocks.push(powerUpBlock); 
+    } else {
+      console.log('There is already a power block at', row, column)
+    }
   }
 }
 
