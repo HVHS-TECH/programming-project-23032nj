@@ -18,16 +18,13 @@ const WALL_DEPTH = 8;
 
 //defining variables
 let score = 0;
-let blockRowColor = "#f3c1e0";
-let colorArray = ['#febdb1', '#d6fda9', '#a8deff', "#F3C1E0"];
-
 let blockCreateRound = -4;
 let spaceReturn = false;
-
 let powerUpBlocks = [];
 
 /*******************************************************/
-// preload()
+//preload()
+//Loading the image before the game starts
 /*******************************************************/
 
 function preload() {
@@ -35,7 +32,8 @@ function preload() {
 }
 
 /*******************************************************/
-// setup()
+//setup()
+//setting up the different elements (ball, platform, etc) and running the other functions 
 /*******************************************************/
 
 function setup() {
@@ -44,7 +42,7 @@ function setup() {
   cnv = new Canvas(GAME_WIDTH, GAME_HEIGHT);
   world.gravity.y = 0;
 
-  // creating ball code
+  //creating ball code
   ball = new Sprite(PLATFORM_POSITION_X, PLATFORM_POSITION_Y - BALL_DIAMETER, BALL_DIAMETER, 'd');
   ball.color = '#c587dd';
   ball.image = (imgBall);
@@ -66,11 +64,12 @@ function setup() {
   //running block hit function
   blockHit();
 
-  //setup() finished
-}
+  
+} //setup() finished
 
 /*******************************************************/
-// walls()
+//walls()
+//creating the wall sprites
 /*******************************************************/
 
 function walls() {
@@ -88,49 +87,62 @@ function walls() {
 }
 
 /*******************************************************/
-// createPowerUpBlocks()
+//createPowerUpBlocks()
+//creates power up blocks and pushes them to the array with a row and column position
 /*******************************************************/
 
 function createPowerUpBlocks() {
+  //clear powerUpBlocks Array
   powerUpBlocks = [];
+  //Push 3 different power up blocks to the array all in different positions
   while (powerUpBlocks.length < 3) {
     let row = Math.round(random(0, 3));
     let column = Math.round(random(0, 6));
-
+ 
+    //using the gerPowerUpBlock function to check if existing powerUpBlock is in the right position
     let existingPowerBlock = getPowerUpBlock(row, column);
+    //if it is in a correct position, push it to powerUpBlocks array 
     if (existingPowerBlock == undefined) {
-
       let powerUpBlock = {}
       powerUpBlock.row = row;
       powerUpBlock.column = column;
       powerUpBlocks.push(powerUpBlock); 
-    } else {
-      console.log('There is already a power block at', row, column)
     }
   }
 }
 
 /*******************************************************/
-// getPowerUpBlock()
+//getPowerUpBlock()
+//checks if the information given matches up with a power up blocks information (checking if what we have is a power up block)
 /*******************************************************/
 
 function getPowerUpBlock(rowToCheck, columnToCheck) {
+  //checking if it's a power up block using position
   for (var i = 0; i < powerUpBlocks.length; i++) {
     if (powerUpBlocks[i].row == rowToCheck && powerUpBlocks[i].column == columnToCheck) {
+      //if it is a power up block
       return powerUpBlocks[i];
     }
   }
+  //if it isn't a power up block
   return undefined;
 }
 
 /*******************************************************/
-// blockCreate()
+//blockCreate()
+//creating the normal blocks, assigning them positions and colours
 /*******************************************************/
 
 function blockCreate() {
+  //define variables
+  let blockRowColor = "#f3c1e0";
+  let colorArray = ['#febdb1', '#d6fda9', '#a8deff', "#F3C1E0"];
+
   blockGroup = new Group();
+  //creating a 7 by 4 grid of blocks
   for (var row = 0; row < 4; row++) {
     for (var column = 0; column < 7; column++) {
+      //creating the blocks in the group
       var block = new Sprite(column * 80 + 83, row * 45 + 75, BLOCK_WIDTH, BLOCK_HEIGHT, 'k');
       let powerUpCheck = getPowerUpBlock(row, column);
       if (powerUpCheck != undefined) {
@@ -145,13 +157,11 @@ function blockCreate() {
     blockRowColor = colorArray[row];
   }
   blockCreateRound = blockCreateRound - 1;
-  console.log(powerUpBlocks[0]);
-  console.log(powerUpBlocks[1]);
-  console.log(powerUpBlocks[2]);
 }
 
 /*******************************************************/
-// blockHit()
+//blockHit()
+//when a block is hit adding to the score depending on if it's a normal or power up block and removing the block that was hit
 /*******************************************************/
 
 function blockHit() {
@@ -170,6 +180,7 @@ function blockHit() {
 
 /*******************************************************/
 // functionGameEnd()
+//when the ball collides with the bottom wall, removing all elements, resetting the game, and showing the end screen
 /*******************************************************/
 
   function functionGameEnd(wallBottom, Ball) {
@@ -227,23 +238,25 @@ function draw() {
     ball.vel.x = ballVelocityX;
     ball.friction = 0;
     ball.drag = 0;
+    //We only want to be able to press space to move the ball once at the start
     spaceReturn = true;
   }
 
-  //When all the blocks have been hit
+  //When all of the blocks have been hit
   if (blockGroup.length == 0) {
-    //recreate the blocks
+    //create a new grid of blocks
     createPowerUpBlocks();
     blockCreate();
     blockHit();
 
-    //reset the ball and platform
+    //reset the ball and platform positions
     platform.position.x = PLATFORM_POSITION_X;
     platform.position.y = PLATFORM_POSITION_Y;
     ball.position.x = PLATFORM_POSITION_X;
     ball.position.y = PLATFORM_POSITION_Y - BALL_DIAMETER;
     ball.vel.x = 0;
     ball.vel.y = 0;
+    // Make it so we can press space to start the ball movement again
     spaceReturn = false;
   }
 
