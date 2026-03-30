@@ -88,7 +88,7 @@ function walls() {
 
 /*******************************************************/
 //createPowerUpBlocks()
-//creates power up blocks and pushes them to the array with a row and column position
+//creates power up blocks and pushes them to the array with row and column values
 /*******************************************************/
 
 function createPowerUpBlocks() {
@@ -223,7 +223,7 @@ function draw() {
   }
 
   //creating platform limits
-  if (platform.x >= GAME_WIDTH - PLATFORM_WIDTH / 2 - 5) {
+  if (platform.x >= GAME_WIDTH - PLATFORM_WIDTH / 2) {
     platform.x = GAME_WIDTH - PLATFORM_WIDTH / 2 - WALL_DEPTH;
   }
 
