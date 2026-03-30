@@ -139,11 +139,12 @@ function blockCreate() {
   let colorArray = ['#febdb1', '#d6fda9', '#a8deff', "#F3C1E0"];
 
   blockGroup = new Group();
-  //creating a 7 by 4 grid of blocks
+  //we want a 7 by 4 grid of blocks
   for (var row = 0; row < 4; row++) {
     for (var column = 0; column < 7; column++) {
-      //creating the blocks in the group
+      //creating the blocks in the grid
       var block = new Sprite(column * 80 + 83, row * 45 + 75, BLOCK_WIDTH, BLOCK_HEIGHT, 'k');
+      //check for power up blocks and colour them differently to the normal blocks
       let powerUpCheck = getPowerUpBlock(row, column);
       if (powerUpCheck != undefined) {
         block.color = '#bc8dfd';
@@ -179,17 +180,17 @@ function blockHit() {
 }
 
 /*******************************************************/
-// functionGameEnd()
-//when the ball collides with the bottom wall, removing all elements, resetting the game, and showing the end screen
+//functionGameEnd()
+//when the ball collides with the bottom wall, removing elements, resetting the game, and showing the end screen
 /*******************************************************/
 
   function functionGameEnd(wallBottom, Ball) {
     ball.remove();
     platform.remove()
-    //Not removing blockGroup so that powerUpBlocks don't recreate
     blockCreateRound = 0;
     console.log("Game over. You got " + score + " points.");
     console.log(blockGroup.length);
+    //revealing the endscreen
     gameEnd.style.display = "block";
   }
 
@@ -230,7 +231,7 @@ function draw() {
     platform.x = WALL_DEPTH + PLATFORM_WIDTH / 2;
   }
 
-  //At the start of eachb round, when space is pressed ball starts moving
+  //At the start of each round, when space is pressed ball starts moving
   if (kb.presses('space') && (spaceReturn == false)) {
     let ballVelocityX = random(-6, 6);
     ball.bounciness = 1;
@@ -244,7 +245,7 @@ function draw() {
 
   //When all of the blocks have been hit
   if (blockGroup.length == 0) {
-    //create a new grid of blocks
+    //create a new grid of blocks and enable them to be hit and deleted
     createPowerUpBlocks();
     blockCreate();
     blockHit();
