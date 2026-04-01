@@ -5,15 +5,15 @@
 /***********************************************/
 
 //defining constants
-const GAME_WIDTH = 650;
-const GAME_HEIGHT = 700;
-const BALL_DIAMETER = 30;
+const GAME_WIDTH = 550;
+const GAME_HEIGHT = 600;
+const BALL_DIAMETER = 25;
 const PLATFORM_POSITION_X = GAME_WIDTH / 2;
 const PLATFORM_POSITION_Y = GAME_HEIGHT - 70;
-const PLATFORM_WIDTH = 130;
+const PLATFORM_WIDTH = 110;
 const PLATFORM_HEIGHT = 5;
-const BLOCK_WIDTH = 65;
-const BLOCK_HEIGHT = 30;
+const BLOCK_WIDTH = 52;
+const BLOCK_HEIGHT = 25;
 const WALL_DEPTH = 8;
 
 //defining variables
@@ -144,7 +144,7 @@ function blockCreate() {
   for (var row = 0; row < 4; row++) {
     for (var column = 0; column < 7; column++) {
       //creating the blocks in the grid
-      var block = new Sprite(column * 80 + 83, row * 45 + 75, BLOCK_WIDTH, BLOCK_HEIGHT, 'k');
+      var block = new Sprite(column * 67 + 75, row * 40 + 67, BLOCK_WIDTH, BLOCK_HEIGHT, 'k');
       //check for power up blocks and colour them differently to the normal blocks
       let powerUpCheck = getPowerUpBlock(row, column);
       if (powerUpCheck != undefined) {
@@ -208,7 +208,7 @@ function draw() {
   background('#bfd7fa');
 
   //displaying the score
-  text('Score: ' + score, GAME_WIDTH - 150, 40);
+  text('Score: ' + score, GAME_WIDTH - 143, 40);
   textSize(25);
   fill('#eb7184');
 
