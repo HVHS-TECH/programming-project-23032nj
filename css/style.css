@@ -10,8 +10,8 @@ body {
 }
 
 .container {
- width: 650px;
- height: 700px;
+ width: 550px;
+ height: 600px;
  background-color: #bfd7fa;
  padding: 3px;
  border: #eb7184;
@@ -54,8 +54,8 @@ button {
 }
 
 .containerEnd {
- width: 650px;
- height: 700px;
+ width: 550px;
+ height: 600px;
  background-color: #bfd7fa;
  padding: 3px;
  position: absolute;
