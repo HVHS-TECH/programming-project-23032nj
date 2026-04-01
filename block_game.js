@@ -38,7 +38,6 @@ function preload() {
 
 function setup() {
 
-  console.log("running game");
   cnv = new Canvas(GAME_WIDTH, GAME_HEIGHT);
   world.gravity.y = 0;
 
@@ -96,12 +95,13 @@ function createPowerUpBlocks() {
   powerUpBlocks = [];
   //Push 3 different power up blocks to the array all in different positions
   while (powerUpBlocks.length < 3) {
+    // choose a random row and column
     let row = Math.round(random(0, 3));
     let column = Math.round(random(0, 6));
  
-    //using the gerPowerUpBlock function to check if existing powerUpBlock is in the right position
+    //using the getPowerUpBlock function, check if there is already a powerUpBlock at this row and column 
     let existingPowerBlock = getPowerUpBlock(row, column);
-    //if it is in a correct position, push it to powerUpBlocks array 
+    //if there isn't already a powerUpBlock at this position, create a powerUpBlock and push it to the powerUpBlocks array
     if (existingPowerBlock == undefined) {
       let powerUpBlock = {}
       powerUpBlock.row = row;
@@ -113,18 +113,19 @@ function createPowerUpBlocks() {
 
 /*******************************************************/
 //getPowerUpBlock()
-//checks if the information given matches up with a power up blocks information (checking if what we have is a power up block)
+//checks if the row and colum given matches with a powerUpBlock, if it does return powerUpBlock, else return undefined
 /*******************************************************/
 
 function getPowerUpBlock(rowToCheck, columnToCheck) {
-  //checking if it's a power up block using position
+  //run for the length of all the powerUpBlocks
   for (var i = 0; i < powerUpBlocks.length; i++) {
+    //check if the current powerUpBlock matches row and column given
     if (powerUpBlocks[i].row == rowToCheck && powerUpBlocks[i].column == columnToCheck) {
-      //if it is a power up block
+      //if it does, return it
       return powerUpBlocks[i];
     }
   }
-  //if it isn't a power up block
+  //no powerUpBlocks match, return undefined
   return undefined;
 }
 
@@ -151,6 +152,7 @@ function blockCreate() {
       } else {
         block.color = blockRowColor;
       }    
+      //store the row and column info with the block so we can check it later
       block.row = row;
       block.column = column;
       blockGroup.add(block);
@@ -162,7 +164,7 @@ function blockCreate() {
 
 /*******************************************************/
 //blockHit()
-//when a block is hit adding to the score depending on if it's a normal or power up block and removing the block that was hit
+//when a block collides with ball, adding to the score depending on if it's a normal or powerUpBlock and removing the block that was hit
 /*******************************************************/
 
 function blockHit() {
@@ -172,8 +174,10 @@ function blockHit() {
     block.remove();
     let powerUpBlock = getPowerUpBlock(block.row, block.column)
     if (powerUpBlock != undefined) {
+      //if it's a powerUpBlock
         score = score + 5;
       } else {
+        //if it's a normal block
         score = score + 1;
       }
   }
@@ -188,8 +192,6 @@ function blockHit() {
     ball.remove();
     platform.remove()
     blockCreateRound = 0;
-    console.log("Game over. You got " + score + " points.");
-    console.log(blockGroup.length);
     //revealing the endscreen
     gameEnd.style.display = "block";
   }
@@ -199,6 +201,10 @@ function blockHit() {
 /*******************************************************/
 function draw() {
 
+  //defining variables
+  let atRightEdge = false;
+  let atLeftEdge = false;
+
   background('#bfd7fa');
 
   //displaying the score
@@ -206,11 +212,25 @@ function draw() {
   textSize(25);
   fill('#eb7184');
 
-  //creating platform movement
-  if (kb.pressing('left')) {
+
+  //stop the platform from moving past the walls
+  if (platform.x >= GAME_WIDTH - (PLATFORM_WIDTH / 2)) {
+    platform.x = GAME_WIDTH - (PLATFORM_WIDTH / 2)
+    atRightEdge = true;
+    platform.vel.x = '0';
+  }
+
+  if (platform.x < WALL_DEPTH + (PLATFORM_WIDTH / 2)) {
+    platform.x = PLATFORM_WIDTH / 2;
+    platform.vel.x = 0;
+    atLeftEdge = true;
+  }
+
+   //move the platform left and right when the left and right arrows are pressed
+  if (kb.pressing('left') && atLeftEdge == false) {
     platform.vel.x = '-8';
   }
-  else if (kb.pressing('right')) {
+  else if (kb.pressing('right') && atRightEdge == false) {
     platform.vel.x = '8';
   }
 
@@ -220,16 +240,7 @@ function draw() {
 
   if (kb.released('right')) {
     platform.vel.x = '0';
-  }
-
-  //creating platform limits
-  if (platform.x >= GAME_WIDTH - PLATFORM_WIDTH / 2) {
-    platform.x = GAME_WIDTH - PLATFORM_WIDTH / 2 - WALL_DEPTH;
-  }
-
-  if (platform.x < WALL_DEPTH + PLATFORM_WIDTH / 2) {
-    platform.x = WALL_DEPTH + PLATFORM_WIDTH / 2;
-  }
+  } 
 
   //At the start of each round, when space is pressed ball starts moving
   if (kb.presses('space') && (spaceReturn == false)) {
